@@ -1,0 +1,48 @@
+const form = document.getElementById('studentForm');
+const tableBody = document.getElementById('studentTableBody');
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const roll = document.getElementById('roll').value;
+  const department = document.getElementById('department').value;
+  const email = document.getElementById('email').value;
+
+  addStudentToTable(name, roll, department, email);
+  form.reset();
+});
+
+function addStudentToTable(name, roll, department, email) {
+  const row = document.createElement('tr');
+
+  row.innerHTML = `
+    <td>${name}</td>
+    <td>${roll}</td>
+    <td>${department}</td>
+    <td>${email}</td>
+    <td>
+      <button class="action-btn edit-btn" onclick="editStudent(this)">Edit</button>
+      <button class="action-btn delete-btn" onclick="deleteStudent(this)">Delete</button>
+    </td>
+  `;
+
+  tableBody.appendChild(row);
+}
+
+function deleteStudent(button) {
+  const row = button.parentElement.parentElement;
+  tableBody.removeChild(row);
+}
+
+function editStudent(button) {
+  const row = button.parentElement.parentElement;
+  const cells = row.querySelectorAll('td');
+
+  document.getElementById('name').value = cells[0].textContent;
+  document.getElementById('roll').value = cells[1].textContent;
+  document.getElementById('department').value = cells[2].textContent;
+  document.getElementById('email').value = cells[3].textContent;
+
+  tableBody.removeChild(row);
+}
